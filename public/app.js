@@ -14,7 +14,40 @@ const revealMessage = $("#reveal-message");
 const exchangeCodeMessage = $("#exchange-code-message");
 const resetControl = $("#reset-control");
 
+initializeTheme();
 initialize();
+
+function initializeTheme() {
+  let theme;
+  try {
+    theme = localStorage.getItem("secret-santa-theme");
+  } catch {
+    theme = null;
+  }
+  setTheme(
+    theme === "dark" || theme === "light"
+      ? theme
+      : matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light",
+  );
+  $("#theme-toggle").addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    try {
+      localStorage.setItem("secret-santa-theme", next);
+    } catch {
+      // The selected theme still applies for this visit when storage is unavailable.
+    }
+  });
+}
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const dark = theme === "dark";
+  $("#theme-toggle").setAttribute("aria-label", `Switch to ${dark ? "light" : "dark"} mode`);
+  $("#theme-toggle span").textContent = dark ? "☀" : "☾";
+}
 
 function initialize() {
   bindTabs();

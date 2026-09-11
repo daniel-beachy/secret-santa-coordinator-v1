@@ -106,6 +106,22 @@ button {
   text-underline-offset: 4px;
 }
 
+.theme-toggle {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  place-items: center;
+  color: var(--forest);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.82);
+}
+
 .privacy-pill {
   display: flex;
   align-items: center;
@@ -621,6 +637,106 @@ dialog {
 dialog::backdrop {
   background: rgba(11, 31, 24, 0.56);
   backdrop-filter: blur(5px);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e8f0eb;
+  --forest: #76b895;
+  --forest-dark: #9ad0b1;
+  --cream: #111b17;
+  --paper: rgba(24, 37, 31, 0.94);
+  --red: #e17970;
+  --red-dark: #ef958d;
+  --gold: #e2b965;
+  --muted: #a5b4ac;
+  --line: #3b4d44;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+}
+
+[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 50% -20%, #24352c 0, transparent 48%),
+    linear-gradient(145deg, #111a16 0%, #15231c 52%, #211918 100%);
+}
+
+[data-theme="dark"] .aurora-one {
+  background: #3f7654;
+}
+
+[data-theme="dark"] .aurora-two {
+  background: #873f3c;
+}
+
+[data-theme="dark"] .brand-mark,
+[data-theme="dark"] .primary-button {
+  color: #f4faf6;
+  background: #286347;
+}
+
+[data-theme="dark"] .privacy-pill span {
+  background: #75c38e;
+}
+
+[data-theme="dark"] .theme-toggle {
+  color: var(--ink);
+  background: #21352b;
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background: #294337;
+}
+
+[data-theme="dark"] .mode-tabs {
+  background: rgba(18, 29, 24, 0.88);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .mode-tab {
+  color: #93a299;
+}
+
+[data-theme="dark"] .mode-tab.active {
+  color: var(--ink);
+  background: #283a31;
+}
+
+[data-theme="dark"] .count-badge,
+[data-theme="dark"] .hint,
+[data-theme="dark"] .person-number,
+[data-theme="dark"] .add-exclusion,
+[data-theme="dark"] .secondary-button,
+[data-theme="dark"] .credential,
+[data-theme="dark"] .recovery-item {
+  color: var(--ink);
+  background: #273b31;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] .share-box,
+[data-theme="dark"] dialog {
+  color: var(--ink);
+  background: #182720;
+}
+
+[data-theme="dark"] input::placeholder {
+  color: #718077;
+}
+
+[data-theme="dark"] .exclusion-chip,
+[data-theme="dark"] .form-message {
+  color: #efb0aa;
+  background: #472b29;
+  border-color: #66403d;
+}
+
+[data-theme="dark"] .recipient-card {
+  background: #286347;
+}
+
+[data-theme="dark"] .recipient-card p {
+  color: #c4ddcf;
 }
 
 dialog h2,
