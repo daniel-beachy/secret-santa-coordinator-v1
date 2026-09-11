@@ -88,6 +88,24 @@ button {
   border-radius: 9px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.portfolio-link {
+  color: var(--forest);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.portfolio-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .privacy-pill {
   display: flex;
   align-items: center;
