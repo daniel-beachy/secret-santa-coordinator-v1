@@ -11,6 +11,7 @@ const successPanel = $("#success-panel");
 const recoveryPanel = $("#recovery-panel");
 const organizerMessage = $("#organizer-message");
 const revealMessage = $("#reveal-message");
+const exchangeCodeMessage = $("#exchange-code-message");
 const resetControl = $("#reset-control");
 
 initialize();
@@ -47,6 +48,7 @@ function switchMode(mode) {
   $("#organize-tab").setAttribute("aria-selected", String(organize));
   $("#reveal-tab").classList.toggle("active", !organize);
   $("#reveal-tab").setAttribute("aria-selected", String(!organize));
+  if (!organize) configureRevealPanel();
 }
 
 function bindOrganizer() {
@@ -218,6 +220,32 @@ function showOrganizerSuccess(result) {
 }
 
 function bindReveal() {
+  $("#exchange-code-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const submit = event.submitter;
+    const exchangeId = extractExchangeId($("#exchange-code").value);
+    if (!exchangeId) {
+      showMessage(exchangeCodeMessage, "Enter a valid participant link or exchange code.");
+      return;
+    }
+
+    setLoading(submit, true, "Checking exchange…");
+    hideMessage(exchangeCodeMessage);
+    try {
+      await api(`/api/exchanges/${encodeURIComponent(exchangeId)}`, { method: "GET" });
+      state.exchangeId = exchangeId;
+      const url = new URL(location.href);
+      url.searchParams.set("exchange", exchangeId);
+      history.replaceState({}, "", url);
+      configureRevealPanel();
+      $("#reveal-name").focus();
+    } catch (error) {
+      showMessage(exchangeCodeMessage, error.message);
+    } finally {
+      setLoading(submit, false);
+    }
+  });
+
   $("#reveal-pin").addEventListener("input", (event) => {
     event.target.value = event.target.value.replace(/\D/g, "").slice(0, 4);
   });
@@ -242,6 +270,28 @@ function bindReveal() {
       setLoading(submit, false);
     }
   });
+}
+
+function configureRevealPanel() {
+  const hasExchange = Boolean(state.exchangeId);
+  $("#exchange-code-form").hidden = hasExchange;
+  $("#reveal-form").hidden = !hasExchange;
+  $("#reveal-heading").textContent = hasExchange ? "Who are you gifting?" : "Find your exchange";
+  $("#reveal-intro").textContent = hasExchange
+    ? "Use the exact first name and PIN your organizer sent you."
+    : "Paste the participant link or exchange code your organizer sent you.";
+}
+
+function extractExchangeId(value) {
+  const input = value.trim();
+  if (/^[a-zA-Z0-9_-]{8,64}$/.test(input)) return input;
+  try {
+    const parsed = new URL(input);
+    const exchangeId = parsed.searchParams.get("exchange") || "";
+    return /^[a-zA-Z0-9_-]{8,64}$/.test(exchangeId) ? exchangeId : "";
+  } catch {
+    return "";
+  }
 }
 
 function showRevealSuccess(recipient) {

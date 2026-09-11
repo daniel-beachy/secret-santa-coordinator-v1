@@ -102,9 +102,27 @@
         <div id="reveal-panel" class="panel reveal-panel" role="tabpanel" hidden>
           <div class="reveal-icon" aria-hidden="true">?</div>
           <p class="step-label">Your secret awaits</p>
-          <h2>Who are you gifting?</h2>
-          <p class="panel-intro">Use the exact first name and PIN your organizer sent you.</p>
-          <form id="reveal-form">
+          <h2 id="reveal-heading">Find your exchange</h2>
+          <p class="panel-intro" id="reveal-intro">
+            Paste the participant link or exchange code your organizer sent you.
+          </p>
+          <form id="exchange-code-form">
+            <label class="field">
+              <span>Participant link or exchange code</span>
+              <input
+                id="exchange-code"
+                autocomplete="off"
+                placeholder="Paste link or code"
+                required
+              />
+            </label>
+            <div class="form-message" id="exchange-code-message" role="alert" hidden></div>
+            <button class="primary-button" type="submit">
+              <span>Continue</span><span aria-hidden="true">→</span>
+            </button>
+            <p class="reveal-help">Don’t have it? Ask your organizer to resend the participant link.</p>
+          </form>
+          <form id="reveal-form" hidden>
             <label class="field">
               <span>First name</span>
               <input

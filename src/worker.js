@@ -21,6 +21,11 @@ export default {
         return await revealRecipient(request, env.DB);
       }
 
+      const exchangeMatch = url.pathname.match(/^\/api\/exchanges\/([a-zA-Z0-9_-]+)$/);
+      if (exchangeMatch && request.method === "GET") {
+        return await validateActiveExchange(env.DB, exchangeMatch[1]);
+      }
+
       const adminMatch = url.pathname.match(/^\/api\/exchanges\/([a-zA-Z0-9_-]+)\/admin$/);
       if (adminMatch && request.method === "GET") {
         return await getAdminStatus(request, env.DB, adminMatch[1]);
@@ -40,6 +45,17 @@ export default {
     }
   },
 };
+
+async function validateActiveExchange(db, exchangeId) {
+  const exchange = await db
+    .prepare("SELECT status FROM exchanges WHERE id = ?")
+    .bind(exchangeId)
+    .first();
+  if (!exchange || exchange.status !== "active") {
+    return json({ error: "That exchange code is not active. Ask your organizer for the current participant link." }, 404);
+  }
+  return json({ exchangeId, status: "active" });
+}
 
 async function createExchange(request, db, origin) {
   const body = await readJson(request);
