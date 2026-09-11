@@ -132,7 +132,7 @@ async function revealRecipient(request, db) {
   const nameKey = normalizeName(String(body.name ?? ""));
   const pin = String(body.pin ?? "");
   if (!exchangeId || !nameKey || !/^\d{4}$/.test(pin)) {
-    return json({ error: "Enter your full name and four-digit PIN." }, 400);
+    return json({ error: "Enter your first name and four-digit PIN." }, 400);
   }
 
   const exchange = await db

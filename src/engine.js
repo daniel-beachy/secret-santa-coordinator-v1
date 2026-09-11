@@ -12,13 +12,13 @@ export function validateExchangeInput(participants, exclusions) {
   }
 
   const names = participants.map((name) => String(name).trim().replace(/\s+/g, " "));
-  if (names.some((name) => name.length < 2 || name.length > 80)) {
-    throw new Error("Each full name must be between 2 and 80 characters.");
+  if (names.some((name) => name.length < 1 || name.length > 40)) {
+    throw new Error("Each first name must be between 1 and 40 characters.");
   }
 
   const keys = names.map(normalizeName);
   if (new Set(keys).size !== keys.length) {
-    throw new Error("Each participant must have a unique full name.");
+    throw new Error("Each participant must have a unique first name.");
   }
 
   const known = new Set(keys);

@@ -84,8 +84,8 @@ function renderParticipants() {
     row.className = "participant-row";
     row.innerHTML = `
       <span class="person-number">${String(index + 1).padStart(2, "0")}</span>
-      <input class="participant-name" aria-label="Participant ${index + 1} full name"
-        autocomplete="off" placeholder="Full name" value="${escapeAttribute(name)}" required />
+      <input class="participant-name" aria-label="Participant ${index + 1} first name"
+        autocomplete="off" maxlength="40" placeholder="First name" value="${escapeAttribute(name)}" required />
       <button class="remove-person" type="button" aria-label="Remove participant ${index + 1}">×</button>
     `;
     row.querySelector("input").addEventListener("input", (event) => {

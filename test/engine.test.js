@@ -34,12 +34,17 @@ test("reports impossible constraints", () => {
   assert.equal(findCircularOrder(names, exclusions, () => 0.5), null);
 });
 
-test("normalizes full names and rejects duplicates", () => {
-  assert.equal(normalizeName("  Ada   LOVELACE "), "ada lovelace");
+test("normalizes names and rejects duplicate first names", () => {
+  assert.equal(normalizeName("  Ada "), "ada");
   assert.throws(
-    () => validateExchangeInput(["Ada Lovelace", " ada  lovelace "], []),
-    /unique full name/,
+    () => validateExchangeInput(["Ada", " ada "], []),
+    /unique first name/,
   );
+});
+
+test("accepts a one-character first name", () => {
+  const result = validateExchangeInput(["A", "Bo"], []);
+  assert.deepEqual(result.names, ["A", "Bo"]);
 });
 
 test("ignores self-exclusions because self-draws are always prohibited", () => {

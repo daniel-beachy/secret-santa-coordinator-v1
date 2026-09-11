@@ -58,7 +58,7 @@
             </div>
             <span class="count-badge" id="participant-count">3 people</span>
           </div>
-          <p class="panel-intro">Add everyone by their full name. Each name must be unique.</p>
+          <p class="panel-intro">Add everyone by first name only. Each name must be unique.</p>
 
           <form id="organizer-form">
             <div class="participant-list" id="participant-list"></div>
@@ -103,11 +103,17 @@
           <div class="reveal-icon" aria-hidden="true">?</div>
           <p class="step-label">Your secret awaits</p>
           <h2>Who are you gifting?</h2>
-          <p class="panel-intro">Use the exact full name and PIN your organizer sent you.</p>
+          <p class="panel-intro">Use the exact first name and PIN your organizer sent you.</p>
           <form id="reveal-form">
             <label class="field">
-              <span>Full name</span>
-              <input id="reveal-name" autocomplete="name" placeholder="e.g. Jordan Lee" required />
+              <span>First name</span>
+              <input
+                id="reveal-name"
+                autocomplete="given-name"
+                maxlength="40"
+                placeholder="e.g. Jordan"
+                required
+              />
             </label>
             <label class="field">
               <span>4-digit PIN</span>
