@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Create a private, constraint-aware Secret Santa exchange and reveal one assignment at a time."
+    />
+    <meta name="theme-color" content="#12372a" />
+    <title>Secret Santa Coordinator</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Secret Santa Coordinator home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>Secret Santa</span>
+      </a>
+      <span class="privacy-pill"><span></span> Private by design</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">A merrier way to match</p>
+        <h1>Every gift finds<br /><em>the right hands.</em></h1>
+        <p class="hero-copy">
+          Create one perfect giving circle, honor every exclusion, and keep each match wonderfully
+          secret.
+        </p>
+      </section>
+
+      <section class="app-shell" id="app">
+        <div class="mode-tabs" role="tablist" aria-label="Choose a mode">
+          <button class="mode-tab active" id="organize-tab" role="tab" aria-selected="true">
+            Organize
+          </button>
+          <button class="mode-tab" id="reveal-tab" role="tab" aria-selected="false">
+            Reveal my person
+          </button>
+        </div>
+
+        <div id="organizer-panel" class="panel" role="tabpanel">
+          <div class="panel-heading">
+            <div>
+              <p class="step-label">Step 01</p>
+              <h2>Build your circle</h2>
+            </div>
+            <span class="count-badge" id="participant-count">3 people</span>
+          </div>
+          <p class="panel-intro">Add everyone by their full name. Each name must be unique.</p>
+
+          <form id="organizer-form">
+            <div class="participant-list" id="participant-list"></div>
+            <button class="text-button" id="add-person" type="button">
+              <span aria-hidden="true">＋</span> Add another person
+            </button>
+
+            <div class="divider"></div>
+            <div class="section-heading">
+              <div>
+                <p class="step-label">Step 02 · Optional</p>
+                <h3>Set exclusions</h3>
+              </div>
+              <span class="hint">Avoid awkward matches</span>
+            </div>
+            <p class="panel-intro">
+              Choose any giver-to-recipient pairing that should never happen.
+            </p>
+
+            <div class="exclusion-builder">
+              <label>
+                <span>Giver</span>
+                <select id="exclusion-giver"></select>
+              </label>
+              <span class="arrow" aria-hidden="true">→</span>
+              <label>
+                <span>Cannot draw</span>
+                <select id="exclusion-recipient"></select>
+              </label>
+              <button class="add-exclusion" id="add-exclusion" type="button">Add</button>
+            </div>
+            <div class="exclusion-list" id="exclusion-list"></div>
+
+            <div class="form-message" id="organizer-message" role="alert" hidden></div>
+            <button class="primary-button" type="submit">
+              <span>Create the exchange</span><span aria-hidden="true">✦</span>
+            </button>
+          </form>
+        </div>
+
+        <div id="reveal-panel" class="panel reveal-panel" role="tabpanel" hidden>
+          <div class="reveal-icon" aria-hidden="true">?</div>
+          <p class="step-label">Your secret awaits</p>
+          <h2>Who are you gifting?</h2>
+          <p class="panel-intro">Use the exact full name and PIN your organizer sent you.</p>
+          <form id="reveal-form">
+            <label class="field">
+              <span>Full name</span>
+              <input id="reveal-name" autocomplete="name" placeholder="e.g. Jordan Lee" required />
+            </label>
+            <label class="field">
+              <span>4-digit PIN</span>
+              <input
+                id="reveal-pin"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                maxlength="4"
+                pattern="[0-9]{4}"
+                placeholder="••••"
+                required
+              />
+            </label>
+            <div class="form-message" id="reveal-message" role="alert" hidden></div>
+            <button class="primary-button" type="submit">
+              <span>Reveal my person</span><span aria-hidden="true">→</span>
+            </button>
+          </form>
+        </div>
+
+        <div id="success-panel" class="panel success-panel" hidden></div>
+        <div id="recovery-panel" class="panel recovery-panel" hidden></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Made for joyful giving, not peeking.</p>
+      <button id="reset-control" class="reset-control" type="button" hidden>Reset exchange</button>
+    </footer>
+
+    <dialog id="reset-dialog">
+      <form method="dialog">
+        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+        <div class="dialog-icon" aria-hidden="true">↺</div>
+        <h2>Reset this exchange?</h2>
+        <p>
+          Participant lookups will stop immediately. The exact assignments and PINs remain safely
+          recoverable.
+        </p>
+        <label class="field">
+          <span>Type RESET to confirm</span>
+          <input id="reset-confirmation" autocomplete="off" />
+        </label>
+        <div class="dialog-actions">
+          <button class="secondary-button" value="cancel">Keep exchange</button>
+          <button class="danger-button" id="confirm-reset" value="default" disabled>
+            Reset exchange
+          </button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

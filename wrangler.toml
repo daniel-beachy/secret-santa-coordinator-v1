@@ -1,0 +1,13 @@
+name = "secret-santa-coordinator-v1"
+main = "src/worker.js"
+compatibility_date = "2026-09-10"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "secret-santa-coordinator-v1"
+database_id = "8e051c3b-8dc1-42f7-b30e-5a948be65e78"
+migrations_dir = "migrations"
